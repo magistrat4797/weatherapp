@@ -1,0 +1,33 @@
+@charset "UTF-8";
+@import "libs/_lib";
+
+#app {
+    background: url('../images/cold-bg.jpg') center top no-repeat;
+    background-size: cover;
+    transition: .3s;
+    position: relative;
+}
+
+.page-wrap {
+    min-height: 100vh;
+    background-image: linear-gradient(to bottom,rgba(0,0,0,.25),rgba(0,0,0,.75));
+}
+
+.title-col {
+    margin-bottom: 20px;
+    &.-center {
+        h1,h2,h3,h4,h5,h6 {
+            text-align: center;
+            color: $base-color;
+        }
+    }
+}
+
+.search-sec {
+    padding: 30px;
+}
+
+.weather-box {
+    &.rainy {
+    }
+}
