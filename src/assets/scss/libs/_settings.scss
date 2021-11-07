@@ -4,13 +4,14 @@
 //-----------------------
 $col-padding: 10px;
 $wrapper-width: 1060px + (2 * $col-padding);
+$wrapper-sm-width: 460px + (2 * $col-padding);
 
 $base-font: "Exo2", Arial, Helvetica, Sans serif;
 $header-font: "Exo2", Arial, Helvetica, Sans serif;
 
-$header-font-size: 38px;
-$header-font-size-mobile: 28px;
-$base-font-size: 14px;
+$header-font-size: 28px;
+$header-font-size-mobile: 24px;
+$base-font-size: 15px;
 
 $base-font-weight: 300;
 
@@ -24,20 +25,20 @@ $border-radius: 10px;
 
 // COLORS 
 //-----------------------
-$theme-color-1: #6b6b6b;
-$theme-color-2: #ff374b;
+$theme-color-1: #041A2C;
+$theme-color-2: #456181;
 
 $form-color: #000000;
 $form-border-color: #ffffff;
 
 $base-color: #ffffff;
 
-$link-color: $base-color;
-$link-hover-color: darken($theme-color-2, 30%);
+$link-color: $theme-color-1;
+$link-hover-color: $theme-color-2;
 
 $btn-color: #ffffff;
 $btn-bg-color: $theme-color-1;
 $btn-hover-color: #ffffff;
-$btn-hover-bg-color: darken($theme-color-2, 30%);
+$btn-hover-bg-color: $theme-color-2;
 
 $input-background-color: rgba(255, 255, 255, 0.75);

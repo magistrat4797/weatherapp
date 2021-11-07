@@ -15,92 +15,12 @@ input[type="email"] {
     font-weight: $base-font-weight;
     font-family: $base-font;
     transition: box-shadow 0.15s ease-in-out;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
     @include outline-remove;
     @include placeholder {
         color: $form-color;
     }
     &:focus {
         box-shadow: 0 0 15px darken($input-background-color, 15%);
-    }
-}
-
-.form-item {
-    flex-basis: 100%;
-    margin-bottom: 10px;
-    position: relative;
-    > label, .label {
-        display: block;
-        font-size: 13px;
-        color: #fff;
-        margin-bottom: 5px;
-    }
-    &.-actions {
-        flex-basis: 100%;
-        margin-bottom: 0;
-        text-align: center;
-        font-size: 0;
-        .btn {
-            width: 100%;
-        }
-    }
-}
-
-.checkbox {
-    display: block;
-    & + * {
-        margin-top: 10px;
-    }
-    label {
-        position: relative;
-        cursor: pointer;
-        input[type="checkbox"] {
-            position: absolute;
-            width: 0;
-            height: 0;
-            visibility: hidden;
-        }
-        .sub-label {
-            position: relative;
-            display: flex;
-            align-items: center;
-            font-weight: $base-font-weight;
-            line-height: 30px;
-            min-height: 30px;
-            font-size: 15px;
-            padding-left: 35px;
-            color: #fff;
-            &::before {
-                content: "";
-                display: block;
-                position: absolute;
-                width: 26px;
-                height: 26px;
-                border-radius: 5px;
-                top: 50%;
-                left: 0;
-                transform: translateY(-50%);
-                border: 1px solid #ffffff;
-            }
-            &::after {
-                content: "";
-                position: absolute;
-                opacity: 0;
-                transition: opacity 0.3s ease 0s;
-                height: 12px;
-                width: 6px;
-                top: 50%;
-                left: 10px;
-                transform: translateY(calc(-50% + -2px)) rotate(42deg);
-                border-bottom: 2px solid #ffffff;
-                border-right: 2px solid #ffffff;
-            }
-        }
-        input[type="checkbox"]:checked + .sub-label::after,
-        input[type="radio"]:checked + .sub-label::after {
-            opacity: 1;
-        }
-        a {
-            color: $theme-color-1;
-        }
     }
 }

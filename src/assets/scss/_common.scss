@@ -31,6 +31,9 @@ body {
     padding-right: $col-padding;
     margin-left: auto;
     margin-right: auto;
+    &.-sm {
+        max-width: $wrapper-sm-width;
+    }
 }
 .row {
     display: flex;
@@ -99,7 +102,7 @@ button {
     display: inline-block;
     @include eqbox(42px, 4px);
     border-radius: $border-radius;
-    font-size: 15px;
+    font-size: $base-font-size;
     cursor: pointer;
     text-align: center;
     color: #ffffff;
@@ -150,11 +153,6 @@ h1, h2, h3, h4, h5, h6 {
         font-size: $header-font-size;
     }
 }
-
-.bold {
-    font-weight: 700!important;
-}
-
 
 ::selection {
     color: #ffffff;

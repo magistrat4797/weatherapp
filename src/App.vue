@@ -1,15 +1,18 @@
 <template>
-    <!-- <div id="app" :class="typeof weather.main != 'undefined' && weather.main.temp > 23 ? 'warm' : '' "> -->
     <div id="app">
         <section class="page-wrap">
             <router-view/>
+            <Footer/>
         </section>
     </div>
 </template>
 
 <script>
+    import Footer from '@/components/Footer.vue'
+
     export default {
-        name:'app'
+        name:'app',
+        components: { Footer }
     }
 </script>
 
