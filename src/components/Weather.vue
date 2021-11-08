@@ -11,7 +11,7 @@
                     </div>
                     <div class="title-box" v-if="typeof weather.main != 'undefined'">
                         <h1>{{ weather.name }}, {{ weather.sys.country }}</h1>
-                        <span class="date">{{ dateBuilder() }}</span>
+                        <span class="date">{{ dateBuilder }}</span>
                     </div>
                 </div>
             </header>
@@ -46,45 +46,18 @@
                         </div>
                     </div>
                 </div>
-                
                 <div class="forecast-col col">
                     <div class="row">
-                        <div class="forecast-item-col col">
+                        <div class="forecast-item-col col"  v-for="day in forecastDays" :key="day">
                             <div class="forecast-box">
-                                <div class="forecast-date">{{ UnixDays(forecast.daily[0].dt) }}</div>
-                                <div class="forecast-temp">{{ Math.round(forecast.daily[0].temp.day) }}°C</div>
-                                <div class="forecast-icon"><img :src="'http://openweathermap.org/img/wn/'+ forecast.daily[0].weather[0].icon +'@4x.png'">  </div>
+                                <div class="forecast-date">{{ UnixDays(forecast.daily[day].dt) }}</div>
+                                <div class="forecast-temp">{{ Math.round(forecast.daily[day].temp.day) }}°C</div>
+                                <div class="forecast-icon"><img :src="'http://openweathermap.org/img/wn/'+ forecast.daily[day].weather[0].icon +'@2x.png'"></div>
+                                <div class="forecast-extra-info">
+                                    <div>Feels like: <b>{{ Math.round(weather.main.feels_like) }}°C</b></div>
+                                </div>
                             </div>
                         </div>
-                        <div class="forecast-item-col col">
-                            <div class="forecast-box">
-                                <div class="forecast-date">{{ UnixDays(forecast.daily[1].dt) }}</div>
-                                <div class="forecast-temp">{{ Math.round(forecast.daily[1].temp.day) }}°C</div>
-                                <div class="forecast-icon"><img :src="'http://openweathermap.org/img/wn/'+ forecast.daily[1].weather[0].icon +'@4x.png'">  </div>
-                            </div>
-                        </div>
-                        <div class="forecast-item-col col">
-                            <div class="forecast-box">
-                                <div class="forecast-date">{{ UnixDays(forecast.daily[2].dt) }}</div>
-                                <div class="forecast-temp">{{ Math.round(forecast.daily[2].temp.day) }}°C</div>
-                                <div class="forecast-icon"><img :src="'http://openweathermap.org/img/wn/'+ forecast.daily[2].weather[0].icon +'@4x.png'">  </div>
-                            </div>
-                        </div>
-                        <div class="forecast-item-col col">
-                            <div class="forecast-box">
-                                <div class="forecast-date">{{ UnixDays(forecast.daily[3].dt) }}</div>
-                                <div class="forecast-temp">{{ Math.round(forecast.daily[3].temp.day) }}°C</div>
-                                <div class="forecast-icon"><img :src="'http://openweathermap.org/img/wn/'+ forecast.daily[3].weather[0].icon +'@4x.png'">  </div>
-                            </div>
-                        </div>
-                        <div class="forecast-item-col col">
-                            <div class="forecast-box">
-                                <div class="forecast-date">{{ UnixDays(forecast.daily[4].dt) }}</div>
-                                <div class="forecast-temp">{{ Math.round(forecast.daily[4].temp.day) }}°C</div>
-                                <div class="forecast-icon"><img :src="'http://openweathermap.org/img/wn/'+ forecast.daily[4].weather[0].icon +'@4x.png'">  </div>
-                            </div>
-                        </div>
-                        <!-- <ForecastItem :forecast="forecast" /> -->
                     </div>
                 </div>
             </div>
@@ -100,18 +73,29 @@
 </template>
 
 <script>
-    //import ForecastItem from "@/components/ForecastItem"
     export default {
         name: 'Weather',
-        //components: {ForecastItem},
         props: ['query'],
         data() {
             return {
                 api_key:'b7fe640e9a244244a6f806f3a6cbf5fc',
                 url_base:'https://api.openweathermap.org/data/2.5/',
+                forecastDays: 6,
                 weather: {},
-                days: 3,
                 forecast: {}
+                
+            }
+        },
+        computed: {
+            dateBuilder () {
+                let d = new Date(),
+                    months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+                    days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                    day = days[d.getDay()],
+                    date = d.getDate(),
+                    month = months[d.getMonth()],
+                    year = d.getFullYear();
+                return `${day} ${date}, ${month} ${year}`;
             }
         },
         methods: {
@@ -124,9 +108,9 @@
             setResults(results){
                 this.weather = results;
 
-                fetch(`${this.url_base}onecall?lat=${this.weather.coord.lat}&lon=${this.weather.coord.lon}&exclude=current,minutely,hourly,alerts&units=metric&appid=${this.api_key}`)
-                .then(response =>{
-                    return response.json()
+                fetch(`${this.url_base}onecall?lat=${results.coord.lat}&lon=${results.coord.lon}&exclude=current,minutely,hourly,alerts&units=metric&appid=${this.api_key}`)
+                .then(data =>{
+                    return data.json()
                 }).then(this.setForecast);
             },
             setForecast(results){
@@ -161,16 +145,6 @@
                 if(dir > 225 && dir <= 315){
                     return "West";
                 }
-            },
-            dateBuilder () {
-                let d = new Date(),
-                    months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
-                    days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-                    day = days[d.getDay()],
-                    date = d.getDate(),
-                    month = months[d.getMonth()],
-                    year = d.getFullYear();
-                return `${day} ${date}, ${month} ${year}`;
             }
         },
         created() {
