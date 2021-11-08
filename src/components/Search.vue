@@ -4,7 +4,7 @@
             <div class="row">
                 <div class="title-col col -center">
                     <h1>Welcome to the weather application! ⛅</h1>
-                    <p>Сheck the current weather in the location by entering it in the input and clicking the search button</p>
+                    <p>Сheck the current weather and get a six days forecast for location by entering it in the input and clicking the search button</p>
                 </div>
             </div>
         </div>

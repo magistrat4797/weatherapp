@@ -3,15 +3,15 @@
         <div class="wrapper">
             <header class="row">
                 <div class="title-col col -center">
+                    <div class="title-box" v-if="typeof weather.main != 'undefined'">
+                        <h1>{{ weather.name }}, {{ weather.sys.country }}</h1>
+                        <span class="date">{{ dateBuilder }}</span>
+                    </div>
                     <div class="title-box" v-if="weather.cod == 404">
                         <h1>Oops not a valid location ... Please enter a valid location 😊</h1>
                     </div>
                     <div class="title-box" v-if="typeof weather.main == 'undefined' && weather.cod != 404">
                         <h1>Oops, it seems you didn't enter the location 😔</h1>
-                    </div>
-                    <div class="title-box" v-if="typeof weather.main != 'undefined'">
-                        <h1>{{ weather.name }}, {{ weather.sys.country }}</h1>
-                        <span class="date">{{ dateBuilder }}</span>
                     </div>
                 </div>
             </header>
@@ -54,7 +54,7 @@
                                 <div class="forecast-temp">{{ Math.round(forecast.daily[day].temp.day) }}°C</div>
                                 <div class="forecast-icon"><img :src="'http://openweathermap.org/img/wn/'+ forecast.daily[day].weather[0].icon +'@2x.png'"></div>
                                 <div class="forecast-extra-info">
-                                    <div>Feels like: <b>{{ Math.round(weather.main.feels_like) }}°C</b></div>
+                                    <div>Feels like: <b>{{ Math.round(forecast.daily[day].feels_like.day) }}°C</b></div>
                                 </div>
                             </div>
                         </div>
@@ -103,12 +103,12 @@
                 fetch(`${this.url_base}weather?q=${this.query}&units=metric&appid=${this.api_key}`)
                 .then(response =>{
                     return response.json()
-                }).then(this.setResults);
+                }).then(this.setCurrentWeather);
             },
-            setResults(results){
+            setCurrentWeather(results){
                 this.weather = results;
 
-                fetch(`${this.url_base}onecall?lat=${results.coord.lat}&lon=${results.coord.lon}&exclude=current,minutely,hourly,alerts&units=metric&appid=${this.api_key}`)
+                fetch(`${this.url_base}onecall?lat=${this.weather.coord.lat}&lon=${this.weather.coord.lon}&exclude=current,minutely,hourly,alerts&units=metric&appid=${this.api_key}`)
                 .then(data =>{
                     return data.json()
                 }).then(this.setForecast);
