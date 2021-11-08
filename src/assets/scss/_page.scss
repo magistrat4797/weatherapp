@@ -9,12 +9,6 @@
 
 .page-wrap {
     min-height: 100vh;
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
 }
 
 .title-col {
@@ -177,5 +171,16 @@
             padding: 0 5px;
             font-size: 20px;
         }
+    }
+}
+
+.forecast-item-col {
+    max-width: 50%;
+    margin-bottom: 10px;
+    @media (min-width: 500px) {
+        max-width: 33.33334%;
+    }
+    @media (min-width: 768px) {
+        max-width: 20%;
     }
 }

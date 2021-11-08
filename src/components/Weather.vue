@@ -42,9 +42,49 @@
                                 <div>Feels like: <span>{{ Math.round(weather.main.feels_like) }}°C</span></div>
                                 <div>Sunrise: <span>{{ UnixTimestamp(weather.sys.sunrise) }}</span></div>
                                 <div>Sunset: <span>{{ UnixTimestamp(weather.sys.sunset) }}</span></div>
-                                
                             </div>
                         </div>
+                    </div>
+                </div>
+                
+                <div class="forecast-col col">
+                    <div class="row">
+                        <div class="forecast-item-col col">
+                            <div class="forecast-box">
+                                <div class="forecast-date">{{ UnixDays(forecast.daily[0].dt) }}</div>
+                                <div class="forecast-temp">{{ Math.round(forecast.daily[0].temp.day) }}°C</div>
+                                <div class="forecast-icon"><img :src="'http://openweathermap.org/img/wn/'+ forecast.daily[0].weather[0].icon +'@4x.png'">  </div>
+                            </div>
+                        </div>
+                        <div class="forecast-item-col col">
+                            <div class="forecast-box">
+                                <div class="forecast-date">{{ UnixDays(forecast.daily[1].dt) }}</div>
+                                <div class="forecast-temp">{{ Math.round(forecast.daily[1].temp.day) }}°C</div>
+                                <div class="forecast-icon"><img :src="'http://openweathermap.org/img/wn/'+ forecast.daily[1].weather[0].icon +'@4x.png'">  </div>
+                            </div>
+                        </div>
+                        <div class="forecast-item-col col">
+                            <div class="forecast-box">
+                                <div class="forecast-date">{{ UnixDays(forecast.daily[2].dt) }}</div>
+                                <div class="forecast-temp">{{ Math.round(forecast.daily[2].temp.day) }}°C</div>
+                                <div class="forecast-icon"><img :src="'http://openweathermap.org/img/wn/'+ forecast.daily[2].weather[0].icon +'@4x.png'">  </div>
+                            </div>
+                        </div>
+                        <div class="forecast-item-col col">
+                            <div class="forecast-box">
+                                <div class="forecast-date">{{ UnixDays(forecast.daily[3].dt) }}</div>
+                                <div class="forecast-temp">{{ Math.round(forecast.daily[3].temp.day) }}°C</div>
+                                <div class="forecast-icon"><img :src="'http://openweathermap.org/img/wn/'+ forecast.daily[3].weather[0].icon +'@4x.png'">  </div>
+                            </div>
+                        </div>
+                        <div class="forecast-item-col col">
+                            <div class="forecast-box">
+                                <div class="forecast-date">{{ UnixDays(forecast.daily[4].dt) }}</div>
+                                <div class="forecast-temp">{{ Math.round(forecast.daily[4].temp.day) }}°C</div>
+                                <div class="forecast-icon"><img :src="'http://openweathermap.org/img/wn/'+ forecast.daily[4].weather[0].icon +'@4x.png'">  </div>
+                            </div>
+                        </div>
+                        <!-- <ForecastItem :forecast="forecast" /> -->
                     </div>
                 </div>
             </div>
@@ -60,16 +100,20 @@
 </template>
 
 <script>
+    //import ForecastItem from "@/components/ForecastItem"
     export default {
         name: 'Weather',
+        //components: {ForecastItem},
+        props: ['query'],
         data() {
             return {
                 api_key:'b7fe640e9a244244a6f806f3a6cbf5fc',
                 url_base:'https://api.openweathermap.org/data/2.5/',
-                weather: {}
+                weather: {},
+                days: 3,
+                forecast: {}
             }
         },
-        props: ['query'],
         methods: {
             fetchWeather(){
                 fetch(`${this.url_base}weather?q=${this.query}&units=metric&appid=${this.api_key}`)
@@ -79,6 +123,14 @@
             },
             setResults(results){
                 this.weather = results;
+
+                fetch(`${this.url_base}onecall?lat=${this.weather.coord.lat}&lon=${this.weather.coord.lon}&exclude=current,minutely,hourly,alerts&units=metric&appid=${this.api_key}`)
+                .then(response =>{
+                    return response.json()
+                }).then(this.setForecast);
+            },
+            setForecast(results){
+                this.forecast = results
             },
             UnixTimestamp(t) {
                 let date = new Date(t * 1000),
@@ -86,6 +138,15 @@
                     m = "0" + date.getMinutes(),
                     s = "0" + date.getSeconds();
                 return hr + ':' + m.substr(-2) + ':' + s.substr(-2);
+            },
+            UnixDays(t) {
+                let d = new Date(t * 1000),
+                    months = ["Jan", "Feb", "March", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                    days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                    day = days[d.getDay()],
+                    date = d.getDate(),
+                    month = months[d.getMonth()]
+                return `${day} ${date}, ${month}`;
             },
             windDirection(dir) {
                 if(dir <= 45 || dir > 315){

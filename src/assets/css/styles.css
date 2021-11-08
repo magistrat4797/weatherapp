@@ -5720,12 +5720,6 @@ input[type=email]:focus {
 
 .page-wrap {
   min-height: 100vh;
-  height: 100vh;
-  width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
 }
 
 .title-col {
@@ -5881,6 +5875,21 @@ input[type=email]:focus {
 }
 .footer-col .footer-social a:hover, .footer-col .footer-social a:active {
   color: #456181;
+}
+
+.forecast-item-col {
+  max-width: 50%;
+  margin-bottom: 10px;
+}
+@media (min-width: 500px) {
+  .forecast-item-col {
+    max-width: 33.33334%;
+  }
+}
+@media (min-width: 768px) {
+  .forecast-item-col {
+    max-width: 20%;
+  }
 }
 
 /*# sourceMappingURL=styles.css.map */
